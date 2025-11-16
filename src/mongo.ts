@@ -1,21 +1,23 @@
 import { Db, MongoClient } from "mongodb";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 let client: MongoClient;
 let dB: Db;
-const dbName = "Vicio";
+const dbName = process.env.MONGO_DB_NAME ?? "Practica3";
 
 export const connectMongoDB = async (): Promise<void> => {
   try {
-    const mongoUrl = `mongodb+srv://${process.env.USER_MONGO}:${process.env.USER_PASSWORD}@${process.env.MONGO_CLUSTER}.3ta2r.mongodb.net/?appName=${process.env.MONGO_APP_NAME}`;
+    const mongoUrl = process.env.MONGO_URI as string; //si no, no me funciona
 
     client = new MongoClient(mongoUrl);
     await client.connect();
     dB = client.db(dbName);
     console.log("Connected to mongodb at db " + dbName);
   } catch (error) {
-    console.log("Error mongo: ", error);
+    console.log("Error Mongo: ", error);
   }
 };
 
-export const getDb = ():Db => dB;
+export const getDb = (): Db => dB;

@@ -16,13 +16,13 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
     const token = authHeader && authHeader.split(" ")[1];
 
     if(!token){
-        res.status(401).json({ message: "Access token is missing" });
+        res.status(401).json({ message: "Acceso al token no posible" });
         return;
     };
 
     jwt.verify(token, SECRET as string, (err, decoded) => {
         if(err){
-            res.status(403).json({ message: "Invalid access token" });
+            res.status(403).json({ message: "invalido acceso al token" });
             return;
         }
         req.user = decoded;
